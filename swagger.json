@@ -1,0 +1,260 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "binar challenge 8.",
+    "version": "1.0.0",
+    "title": "challenge8",
+    "termsOfService": "",
+    "contact": {
+      "email": "ganasbuaya@gmail.com"
+    },
+    "license": {
+      "name": "postgress",
+      "url": "https://www.postgresql.org"
+    }
+  },
+  "host": "localhost:4000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "challenge8",
+      "description": "binar academy",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "challenge 8",
+      "description": "player detail"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user",
+      "externalDocs": {
+        "description": "challenge 8 binar",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/players": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "username",
+            "description": "get username player",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "email",
+            "description": "get mail player",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "description": "get password player",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "experience",
+            "description": "get experience player",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Lvl",
+            "description": "get Lvl player",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "succes"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "create player"
+        ],
+        "summary": "create new player id",
+        "description": "",
+        "operationId": "createplayer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "create new player to database",
+            "required": true,
+            "schema": {
+              "$ref": "#/create/Players"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "succes"
+          },
+          "400": {
+            "description": "username or email cannot empty"
+          }
+        }
+      }
+    },
+    "Players/{:id}": {
+      "get": {
+        "tags": [
+          "player id"
+        ],
+        "summary": "Finds Player by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": " id ",
+            "in": "path",
+            "description": "search player id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": null,
+            "$ref": "#/find/Players"
+          },
+          "404": {
+            "description": "not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "player id"
+        ],
+        "summary": "update player data",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of player return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player with id:  ${id}, successfully update"
+          },
+          "500": {
+            "description": "failed to update"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "player"
+        ],
+        "summary": "delete player with id",
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID of player to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "player with id: ${id}, was deleted"
+          },
+          "400": {
+            "description": "Cannot delete Player with id=${id}"
+          }
+        }
+      }
+    },
+    "Players/exp/{:id}": {
+      "post": {
+        "tags": [
+          "player exp"
+        ],
+        "summary": "add player exp",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "player id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "experience",
+            "description": "player experience",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player with id = ${id} gain ${exp} experience."
+          },
+          "400": {
+            "description": "Cannot update Player with id=${id}!"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Players": {
+      "type": "object",
+      "required": {
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "experience": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+body {
+    text-align: center;
+    background-image: url("");
+    background-size: cover; 
+}
+
+table {
+    text-align: center;
+    size-adjust: auto;
+    width: 500;
+    height: 500;
+
+}
+
+table2 table-hover {
+    text-align: center;
+    size-adjust: auto;
+    width: 300;
+    height: 500;
+
+}
