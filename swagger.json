@@ -1,15 +1,15 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "binar challenge 8.",
+    "description": "binar challenge 8",
     "version": "1.0.0",
     "title": "challenge8",
-    "termsOfService": "",
+    "termsOfService": "http://swagger.io/terms/",
     "contact": {
       "email": "ganasbuaya@gmail.com"
     },
     "license": {
-      "name": "postgress",
+      "name": "postgres",
       "url": "https://www.postgresql.org"
     }
   },
@@ -17,52 +17,42 @@
   "basePath": "/api",
   "tags": [
     {
-      "name": "challenge8",
-      "description": "binar academy",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
-    },
-    {
-      "name": "challenge 8",
-      "description": "player detail"
-    },
-    {
-      "name": "user",
-      "description": "Operations about user",
-      "externalDocs": {
-        "description": "challenge 8 binar",
-        "url": "http://swagger.io"
-      }
+      "name": "Player",
+      "description": "player details"
     }
   ],
   "schemes": [
-    "http"
+    "http",
+    "https"
   ],
   "paths": {
     "/players": {
       "get": {
+        "tags": [
+          "Player"
+        ],
+        "summary": "player list",
+        "description": "list all player in database",
         "parameters": [
           {
             "in": "query",
             "name": "username",
             "description": "get username player",
-            "required": true,
+            "required": false,
             "type": "string"
           },
           {
             "in": "query",
             "name": "email",
             "description": "get mail player",
-            "required": true,
+            "required": false,
             "type": "string"
           },
           {
             "in": "query",
             "name": "password",
             "description": "get password player",
-            "required": true,
+            "required": false,
             "type": "string"
           },
           {
@@ -82,17 +72,19 @@
         ],
         "responses": {
           "200": {
-            "description": "succes"
+            "description": "succes",
+            "schema": {
+              "$ref": "#/definitions/Player"
+            }
           }
         }
       },
       "post": {
         "tags": [
-          "create player"
+          "player"
         ],
-        "summary": "create new player id",
-        "description": "",
-        "operationId": "createplayer",
+        "summary": "create new player",
+        "description": "create new player",
         "consumes": [
           "application/json"
         ],
@@ -106,13 +98,16 @@
             "description": "create new player to database",
             "required": true,
             "schema": {
-              "$ref": "#/create/Players"
+              "$ref": "#/definitions/Player"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "succes"
+            "description": "succes",
+            "schema": {
+              "$ref": "#/definitions/Player"
+            }
           },
           "400": {
             "description": "username or email cannot empty"
@@ -120,20 +115,17 @@
         }
       }
     },
-    "Players/{:id}": {
+    "/players/{id}": {
       "get": {
         "tags": [
-          "player id"
+          "Player"
         ],
         "summary": "Finds Player by id",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
-            "name": " id ",
+            "name": "id",
             "in": "path",
-            "description": "search player id",
+            "description": "search player id to return",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -141,18 +133,19 @@
         ],
         "responses": {
           "200": {
-            "description": "success",
-            "schema": null,
-            "$ref": "#/find/Players"
+            "description": "Player was updated successfully",
+            "schema": {
+              "$ref": "#/definitions/Player"
+            }
           },
-          "404": {
-            "description": "not found"
+          "500": {
+            "description": "Error updating Player with id={id}"
           }
         }
       },
       "put": {
         "tags": [
-          "player id"
+          "player"
         ],
         "summary": "update player data",
         "parameters": [
@@ -167,7 +160,7 @@
         ],
         "responses": {
           "200": {
-            "description": "player with id:  ${id}, successfully update"
+            "description": "successfully update"
           },
           "500": {
             "description": "failed to update"
@@ -181,7 +174,7 @@
         "summary": "delete player with id",
         "parameters": [
           {
-            "name": "Id",
+            "name": "id",
             "in": "path",
             "description": "ID of player to return",
             "required": true,
@@ -191,18 +184,18 @@
         ],
         "responses": {
           "200": {
-            "description": "player with id: ${id}, was deleted"
+            "description": "player was deleted"
           },
           "400": {
-            "description": "Cannot delete Player with id=${id}"
+            "description": "Cannot delete Player"
           }
         }
       }
     },
-    "Players/exp/{:id}": {
+    "/Players/exp/{id}": {
       "post": {
         "tags": [
-          "player exp"
+          "player"
         ],
         "summary": "add player exp",
         "produces": [
@@ -210,7 +203,7 @@
         ],
         "parameters": [
           {
-            "name": "Id",
+            "name": "id",
             "in": "path",
             "description": "player id",
             "required": true,
@@ -222,7 +215,9 @@
             "name": "experience",
             "description": "player experience",
             "required": true,
-            "type": "string"
+            "schema": {
+              "$ref": "#/definitions/exp"
+            }
           }
         ],
         "responses": {
@@ -239,20 +234,40 @@
   "definitions": {
     "Players": {
       "type": "object",
-      "required": {
-        "properties": {
-          "username": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "experience": {
-            "type": "integer"
-          }
+      "required": [
+        "username",
+        "password",
+        "email"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "tester"
+        },
+        "email": {
+          "type": "string",
+          "example": "test@mail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": 12345
+        },
+        "experience": {
+          "type": "integer",
+          "example": 99
+        },
+        "lvl": {
+          "type": "integer",
+          "example": 99
+        }
+      }
+    },
+    "exp": {
+      "type": "object",
+      "properties": {
+        "exp": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     }
